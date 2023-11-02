@@ -1,46 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
- // Rigidbody of the player.
- private Rigidbody rb; 
+    public CharacterController controller;
+    public Transform cam;
 
- // Movement along X and Y axes.
- private float movementX;
- private float movementY;
+    public float speed = 6f;
+    public float turnSmoothTime = 0.1f;
+    float turnSmoothVelocity;
 
- // Speed at which the player moves.
- public float speed = 0; 
 
- // Start is called before the first frame update.
- void Start()
+    // Update is called once per frame
+    void Update()
     {
- // Get and store the Rigidbody component attached to the player.
-        rb = GetComponent<Rigidbody>();
-    }
- 
- // This function is called when a move input is detected.
- void OnMove(InputValue movementValue)
-    {
- // Convert the input value into a Vector2 for movement.
-        Vector2 movementVector = movementValue.Get<Vector2>();
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
- // Store the X and Y components of the movement.
-        movementX = movementVector.x; 
-        movementY = movementVector.y; 
-    }
+        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
- // FixedUpdate is called once per fixed frame-rate frame.
- private void FixedUpdate() 
-    {
- // Create a 3D movement vector using the X and Y inputs.
-        Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
+        if(direction.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float angle =  Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
- // Apply force to the Rigidbody to move the player.
-        rb.AddForce(movement * speed); 
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+        }
     }
 }
