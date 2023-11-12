@@ -53,7 +53,7 @@ public class EnemyAI : MonoBehaviour
 
     private void ChasePlayer()
     {
-        agent.SetDestination(Winston.position);
+        agent.SetDestination(player.position);
     }
 
     private void AttackPlayer()
@@ -61,7 +61,7 @@ public class EnemyAI : MonoBehaviour
         //Make sure Enemy doesnt move
         agent.SetDestination(transform.position);
 
-        transform.LookAt(Winston);
+        transform.LookAt(player);
 
         if(!alreadyAttacked)
         {
@@ -98,7 +98,7 @@ public class EnemyAI : MonoBehaviour
     {
         health -= damage;
 
-        if (health <= 0) Invoke(nameof(DestroyEnemy, .5f));
+        if (health <= 0) Invoke(nameof(DestroyEnemy), .5f);
     }
 
     private void DestroyEnemy()
