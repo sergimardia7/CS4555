@@ -19,6 +19,7 @@ public class PlayerLocomotion : MonoBehaviour
     public float fallingVelocity;
     public float rayCastHeightOffSet = 0.5f;
     public LayerMask groundLayer;
+    public float maxDistance = 1;
     
 
     [Header("Movement Flags")]
@@ -121,9 +122,9 @@ public class PlayerLocomotion : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 rayCastOrigin = transform.position;
-        Vector3 targerPosition;
+        Vector3 targetPosition;
         rayCastOrigin.y = rayCastOrigin.y + rayCastHeightOffSet;
-        targerPosition = transform.position;
+        targetPosition = transform.position;
 
         if(!isGrounded && !isJumping)
         {
@@ -137,17 +138,18 @@ public class PlayerLocomotion : MonoBehaviour
             playerRigidBody.AddForce(-Vector3.up * fallingVelocity * inAirTimer);
         }
 
-        if(Physics.SphereCast(rayCastOrigin, 0.2f, -Vector3.up, out hit, groundLayer))
+        if(Physics.SphereCast(rayCastOrigin, 0.2f, -Vector3.up, out hit,maxDistance, groundLayer))
         {
-            if(!isGrounded && !playerManager.isInteracting)
+            if(!isGrounded && playerManager.isInteracting)
             {
                 animatorManager.PlayerTargetAnimation("Land", true);
             }
 
             Vector3 rayCastHitPoint = hit.point;
-            targerPosition.y = rayCastHitPoint.y;
+            targetPosition.y = rayCastHitPoint.y;
             inAirTimer = 0;
             isGrounded = true;
+            playerManager.isInteracting = false; 
         }
         else
         {
@@ -158,11 +160,11 @@ public class PlayerLocomotion : MonoBehaviour
         {
             if(playerManager.isInteracting || inputManager.moveAmount > 0)
             {
-                transform.position = Vector3.Lerp(transform.position, targerPosition, Time.deltaTime / 0.1f);
+                transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime / 0.1f);
 
             }
             else{
-                transform.position = targerPosition;
+                transform.position = targetPosition;
             }
         }
     }

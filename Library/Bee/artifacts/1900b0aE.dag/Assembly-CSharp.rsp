@@ -361,8 +361,6 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.9f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.9f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/EnemyAI.cs"
-"Assets/ResetBool.cs"
-"Assets/ResetIsJumping.cs"
 "Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/PauseMenu.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
@@ -407,6 +405,8 @@
 "Assets/Winston/Scipts/PlayerControls.cs"
 "Assets/Winston/Scipts/PlayerLocomotion.cs"
 "Assets/Winston/Scipts/PlayerManager.cs"
+"Assets/Winston/Scipts/ResetBool.cs"
+"Assets/Winston/Scipts/ResetIsJumping.cs"
 "Assets/Winston/Scipts/trash for now.cs"
 -langversion:9.0
 
