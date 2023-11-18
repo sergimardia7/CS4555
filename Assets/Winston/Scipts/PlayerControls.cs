@@ -246,24 +246,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Punch"",
-                    ""type"": ""Button"",
-                    ""id"": ""b552bd10-cdc4-400b-800b-a2cd7c0b0de4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Heavy Punch"",
-                    ""type"": ""Button"",
-                    ""id"": ""1f087d8e-09d3-4bad-9f34-48be2ebcefc7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -308,50 +290,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b7bcf117-f035-489e-8cbe-8aa52f09a2bd"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Punch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b1c35b05-1d2c-4cf6-bf00-967a227cf121"",
-                    ""path"": ""<iOSGameController>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Punch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5a98b23c-5ce1-4db5-87b4-9004c4af7459"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Heavy Punch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""eae4b876-0054-4b2b-8dab-3ba62b65c188"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Heavy Punch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -429,8 +367,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
         m_PlayerActions_B = m_PlayerActions.FindAction("B", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
-        m_PlayerActions_Punch = m_PlayerActions.FindAction("Punch", throwIfNotFound: true);
-        m_PlayerActions_HeavyPunch = m_PlayerActions.FindAction("Heavy Punch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -548,16 +484,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerActionsActions> m_PlayerActionsActionsCallbackInterfaces = new List<IPlayerActionsActions>();
     private readonly InputAction m_PlayerActions_B;
     private readonly InputAction m_PlayerActions_Jump;
-    private readonly InputAction m_PlayerActions_Punch;
-    private readonly InputAction m_PlayerActions_HeavyPunch;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @B => m_Wrapper.m_PlayerActions_B;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
-        public InputAction @Punch => m_Wrapper.m_PlayerActions_Punch;
-        public InputAction @HeavyPunch => m_Wrapper.m_PlayerActions_HeavyPunch;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -573,12 +505,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Punch.started += instance.OnPunch;
-            @Punch.performed += instance.OnPunch;
-            @Punch.canceled += instance.OnPunch;
-            @HeavyPunch.started += instance.OnHeavyPunch;
-            @HeavyPunch.performed += instance.OnHeavyPunch;
-            @HeavyPunch.canceled += instance.OnHeavyPunch;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -589,12 +515,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Punch.started -= instance.OnPunch;
-            @Punch.performed -= instance.OnPunch;
-            @Punch.canceled -= instance.OnPunch;
-            @HeavyPunch.started -= instance.OnHeavyPunch;
-            @HeavyPunch.performed -= instance.OnHeavyPunch;
-            @HeavyPunch.canceled -= instance.OnHeavyPunch;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -666,7 +586,5 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnB(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnPunch(InputAction.CallbackContext context);
-        void OnHeavyPunch(InputAction.CallbackContext context);
     }
 }
